@@ -1,0 +1,8 @@
+ipykernel
+torch
+torchvision
+torchaudio
+ultralytics
+matplotlib
+numpy
+

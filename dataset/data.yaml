@@ -1,0 +1,7 @@
+path: C:/Users/ethos/Documents/VideoUtilities/dataset  # absolute path to dataset
+task: detect # task type
+train: train/images  # path to training images
+val: val/images     # path to validation images
+nc: 2  # number of classes (bees and feeders)
+# Class names
+names: ['bee', 'feeder']  # class names
