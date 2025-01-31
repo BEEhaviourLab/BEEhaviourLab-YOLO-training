@@ -1,0 +1,10 @@
+ultralytics
+pandas
+matplotlib
+seaborn
+opencv-python
+ipykernel
+torch
+torchvision
+torchaudio
+numpy
