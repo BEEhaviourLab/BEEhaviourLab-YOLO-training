@@ -78,7 +78,10 @@ output/
 __pycache__/
 *.py[cod]
 *$py.class
+<<<<<<< HEAD
 
 # Environment
 venv/
 ENV/
+=======
+>>>>>>> 0ea170c0728868c2482a7b8ec33e58f8210d57dd
