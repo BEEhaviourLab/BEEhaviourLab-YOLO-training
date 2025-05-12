@@ -6,4 +6,4 @@ ultralytics
 matplotlib
 numpy
 wandb
-
+python-dotenv
