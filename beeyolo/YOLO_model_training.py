@@ -75,7 +75,7 @@ class YOLOTrainer:
             project=self.project_name,
             name=self.run_name,
             config={
-                "architecture": "YOLOv8",
+                "architecture": "YOLOv11",
                 "dataset": "group_bees_2024",
                 "epochs": 100,
                 "batch_size": 16,
@@ -140,7 +140,7 @@ class YOLOTrainer:
 
     def train(self):
         """Train the YOLO model"""
-        model_path = f'yolov8{self.model_size}.pt'
+        model_path = f'yolov11{self.model_size}.pt'
         print(f"Loading model: {model_path}")
         self.model = YOLO(model_path)
         
