@@ -43,6 +43,7 @@ import argparse
 import wandb
 import logging
 from ultralytics import YOLO
+from dotenv import load_dotenv
 
 class YOLOTrainer:
     def __init__(self, project_name, run_name, data_yaml_path, train_path, val_path, model_size='n', 
@@ -71,42 +72,51 @@ class YOLOTrainer:
         
     def init_wandb(self):
         """Initialize Weights & Biases tracking"""
-        wandb.init(
-            project=self.project_name,
-            name=self.run_name,
-            config={
-                "architecture": "YOLOv11",
-                "dataset": "group_bees_2024",
-                "epochs": 100,
-                "batch_size": 16,
-                "img_size": 640,
-                "learning_rate": 0.01
-            }
-        )
+        try:
+            load_dotenv()  # Load environment variables from .env file
+            api_key = os.getenv('WANDB_API_KEY')
+            if not api_key:
+                raise ValueError("WANDB_API_KEY not found in environment variables")
+            
+            wandb.login(key=api_key)
+            wandb.init(
+                project=self.project_name,
+                name=self.run_name,
+                config={
+                    "architecture": "YOLOv11",
+                    "dataset": "group_bees_2024",
+                    "epochs": self.epochs,
+                    "batch_size": self.batch_size,
+                    "img_size": self.image_size,
+                    "learning_rate": 0.01
+                }
+            )
+        except Exception as e:
+            self.logger.error(f"Failed to initialize wandb: {str(e)}")
+            raise
 
     def validate_paths(self):
         """Validate all necessary paths"""
         print("\nDEBUG: Checking paths...")
         print(f"Current working directory: {os.getcwd()}")
-        print(f"Looking for val_path: {self.val_path}")
         
         # Check data.yaml
         print(f"\ndata.yaml path: {self.data_yaml_path}")
         print(f"data.yaml exists: {os.path.exists(self.data_yaml_path)}")
         
-        # Check image directories
-        print(f"\nTrain path: {self.train_path}")
-        print(f"Train directory exists: {os.path.exists(self.train_path)}")
-        print(f"Val path: {self.val_path}")
-        print(f"Val directory exists: {os.path.exists(self.val_path)}")
+        # Get label paths correctly
+        train_labels_path = self.train_path.replace('images', 'labels')
+        val_labels_path = self.val_path.replace('images', 'labels')
         
-        # Check label directories (assuming they're in a 'labels' folder parallel to images)
-        train_labels_path = os.path.join(os.path.dirname(self.train_path).replace('images', 'labels'), 
-                                       os.path.basename(self.train_path))
-        val_labels_path = os.path.join(os.path.dirname(self.val_path).replace('images', 'labels'), 
-                                     os.path.basename(self.val_path))
+        print(f"\nTrain images path: {self.train_path}")
+        print(f"Train labels path: {train_labels_path}")
+        print(f"Val images path: {self.val_path}")
+        print(f"Val labels path: {val_labels_path}")
         
+        # Check directories exist
+        print(f"\nTrain images directory exists: {os.path.exists(self.train_path)}")
         print(f"Train labels directory exists: {os.path.exists(train_labels_path)}")
+        print(f"Val images directory exists: {os.path.exists(self.val_path)}")
         print(f"Val labels directory exists: {os.path.exists(val_labels_path)}")
         
         if not all([os.path.exists(p) for p in [self.train_path, self.val_path, train_labels_path, val_labels_path]]):
@@ -140,34 +150,58 @@ class YOLOTrainer:
 
     def train(self):
         """Train the YOLO model"""
-        model_path = f'yolov11{self.model_size}.pt'
-        print(f"Loading model: {model_path}")
-        self.model = YOLO(model_path)
-        
-        # Add this debug print
-        print(f"\nOutput will be saved to: {os.path.abspath('runs/detect/train/')}")
-        
-        # Auto-detect device
-        import torch
-        device = 'cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu'
-        print(f"Using device: {device}")
-        
-        results = self.model.train(
-            data=self.data_yaml_path,
-            epochs=self.epochs,
-            imgsz=self.image_size,
-            batch=self.batch_size,
-            device=device,  # Use detected device
-            optimizer="auto",
-            patience=50,
-            save_period=10,
-            workers=8,
-            pretrained=True,
-            verbose=True,
-            seed=42,
-            resume=False,
-        )
-        return results
+        try:
+            # Get absolute paths
+            current_dir = os.path.dirname(os.path.abspath(self.data_yaml_path))
+            
+            # Update data.yaml with absolute paths
+            import yaml
+            with open(self.data_yaml_path, 'r') as f:
+                data_yaml = yaml.safe_load(f)
+            
+            # Create temporary data.yaml with absolute paths
+            temp_yaml_path = os.path.join(current_dir, 'temp_data.yaml')
+            data_yaml['path'] = current_dir
+            data_yaml['train'] = os.path.join(current_dir, 'train/images')
+            data_yaml['val'] = os.path.join(current_dir, 'val/images')
+            
+            with open(temp_yaml_path, 'w') as f:
+                yaml.dump(data_yaml, f)
+            
+            model_path = f'yolo11{self.model_size}.pt'
+            print(f"Loading model: {model_path}")
+            
+            # YOLO will automatically download the correct model
+            self.model = YOLO(model_path)
+            
+            # Auto-detect device
+            import torch
+            device = 'cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu'
+            print(f"Using device: {device}")
+            
+            results = self.model.train(
+                data=temp_yaml_path,  # Use the temporary yaml file
+                epochs=self.epochs,
+                imgsz=self.image_size,
+                batch=self.batch_size,
+                device=device,
+                optimizer="auto",
+                patience=50,
+                save_period=10,
+                workers=8,
+                pretrained=True,
+                verbose=True,
+                seed=42,
+                resume=False,
+            )
+            
+            # Clean up temporary file
+            os.remove(temp_yaml_path)
+            
+            return results
+        except Exception as e:
+            self.logger.error(f"Training failed: {str(e)}")
+            raise
 
     def run_training(self):
         """Execute the full training pipeline"""

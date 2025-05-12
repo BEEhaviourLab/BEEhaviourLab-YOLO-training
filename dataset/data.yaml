@@ -1,4 +1,5 @@
-path: C:/Users/ethos/Documents/VideoUtilities/dataset  # absolute path to dataset
+# Dataset paths should be relative to the data.yaml file location
+path: .  # root directory is the current directory
 task: detect # task type
 train: train/images  # path to training images
 val: val/images     # path to validation images
