@@ -25,15 +25,6 @@
 #     --batch_size 16 \ # Training batch size (default 16)
 #     --image_size 640 # Input image size (default 640)
 
-# train5 (YOLOv8n with 10 epochs)
-# python YOLO_model_training.py --project_name "bee-detection" --run_name "yolov8n-training-run-1" --data_yaml "dataset/data.yaml" --train_path "dataset/train/images" --val_path "dataset/val/images" --model_size "n" --epochs 10 --batch_size 8 --image_size 640
-
-# train6 (YOLOv4s with 10 epochs)
-# python YOLO_model_training.py --project_name "bee-detection" --run_name "yolov8s-training-run-1" --data_yaml "dataset/data.yaml" --train_path "dataset/train/images" --val_path "dataset/val/images" --model_size "s" --epochs 10 --batch_size 8 --image_size 640
-
-# train7 (YOLOv8n with 100 epochs)
-# python YOLO_model_training.py --project_name "bee-detection" --run_name "yolov8n-training-run-2" --data_yaml "dataset/data.yaml" --train_path "dataset/train/images" --val_path "dataset/val/images" --model_size "n" --epochs 100 --batch_size 8 --image_size 640
-
 # All parameters after model_size are optional and will use their default values if not specified. 
 
 
@@ -83,7 +74,7 @@ class YOLOTrainer:
                 project=self.project_name,
                 name=self.run_name,
                 config={
-                    "architecture": "YOLOv11",
+                    "architecture": "YOLOv8",
                     "dataset": "group_bees_2024",
                     "epochs": self.epochs,
                     "batch_size": self.batch_size,
@@ -152,23 +143,29 @@ class YOLOTrainer:
         """Train the YOLO model"""
         try:
             # Get absolute paths
-            current_dir = os.path.dirname(os.path.abspath(self.data_yaml_path))
+            data_yaml_dir = os.path.dirname(os.path.abspath(self.data_yaml_path))
             
             # Update data.yaml with absolute paths
             import yaml
             with open(self.data_yaml_path, 'r') as f:
                 data_yaml = yaml.safe_load(f)
             
-            # Create temporary data.yaml with absolute paths
-            temp_yaml_path = os.path.join(current_dir, 'temp_data.yaml')
-            data_yaml['path'] = current_dir
-            data_yaml['train'] = os.path.join(current_dir, 'train/images')
-            data_yaml['val'] = os.path.join(current_dir, 'val/images')
+            # Create temporary data.yaml in the same directory as original data.yaml
+            temp_yaml_path = os.path.join(data_yaml_dir, 'temp_data.yaml')
+            
+            # Convert relative paths to absolute paths
+            if not os.path.isabs(data_yaml['train']):
+                data_yaml['train'] = os.path.abspath(os.path.join(data_yaml_dir, data_yaml['train']))
+            if not os.path.isabs(data_yaml['val']):
+                data_yaml['val'] = os.path.abspath(os.path.join(data_yaml_dir, data_yaml['val']))
+            
+            # Update path to be the directory containing data.yaml
+            data_yaml['path'] = data_yaml_dir
             
             with open(temp_yaml_path, 'w') as f:
                 yaml.dump(data_yaml, f)
             
-            model_path = f'yolo11{self.model_size}.pt'
+            model_path = f'yolov8{self.model_size}.pt'
             print(f"Loading model: {model_path}")
             
             # YOLO will automatically download the correct model
@@ -193,6 +190,8 @@ class YOLOTrainer:
                 verbose=True,
                 seed=42,
                 resume=False,
+                project='runs/detect',  # Set explicit output directory
+                name='train'  # This will auto-increment (train, train2, etc.)
             )
             
             # Clean up temporary file
@@ -217,7 +216,7 @@ class YOLOTrainer:
             wandb.finish()
 
 def main():
-    parser = argparse.ArgumentParser(description='Train YOLO model for triggerfish detection')
+    parser = argparse.ArgumentParser(description='Train YOLO model for bee detection')
     parser.add_argument('--project_name', type=str, required=True, help='Name of the W&B project')
     parser.add_argument('--run_name', type=str, required=True, help='Name of this specific training run')
     parser.add_argument('--data_yaml', type=str, required=True, help='Path to data.yaml file')
