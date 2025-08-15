@@ -7,3 +7,7 @@ matplotlib
 numpy
 wandb
 python-dotenv
+opencv-python
+tqdm
+pyyaml
+seaborn

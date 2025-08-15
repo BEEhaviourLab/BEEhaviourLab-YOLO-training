@@ -2,14 +2,10 @@
   "categories": [
     {
       "id": 0,
-      "name": "bee_alive"
+      "name": "bee"
     },
     {
       "id": 1,
-      "name": "bee_dead"
-    },
-    {
-      "id": 2,
       "name": "feeder"
     }
   ],

@@ -3,6 +3,6 @@ path: .  # root directory is the current directory
 task: detect # task type
 train: train/images  # path to training images
 val: val/images     # path to validation images
-nc: 3  # number of classes (bee_alive, bee_dead and feeder)
+nc: 2  # number of classes (bee and feeder)
 # Class names
-names: ['bee_alive', 'bee_dead', 'feeder']  # class names
+names: ['bee', 'feeder']  # class names
