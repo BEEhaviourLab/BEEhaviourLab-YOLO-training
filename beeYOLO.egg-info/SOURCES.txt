@@ -13,6 +13,7 @@ beeYOLO.egg-info/requires.txt
 beeYOLO.egg-info/top_level.txt
 beeyolo/YOLO_model_training.py
 beeyolo/__init__.py
+beeyolo/benchmark_YOLO.py
 beeyolo/load_run_metrics.py
 beeyolo/trim_video_opencv.py
 beeyolo/video_inference.py

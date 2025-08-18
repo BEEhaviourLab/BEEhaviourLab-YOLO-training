@@ -1,0 +1,29 @@
+{
+  "model_path": "../models/insectYOLO.pt",
+  "dataset_name": "hoverfly-data",
+  "mode": "val",
+  "total_images": 38,
+  "total_ground_truth": 76,
+  "total_detections": 0,
+  "total_correct": 0,
+  "overall_precision": 1.0,
+  "overall_recall": 0.986842105263158,
+  "overall_f1_score": 0.9907,
+  "overall_map50": 0.9907,
+  "overall_map50_95": 0.6403265979651396,
+  "conf_threshold": 0.5,
+  "iou_threshold": 0.5,
+  "ultralytics_metrics": {
+    "metrics/precision(B)": 1.0,
+    "metrics/recall(B)": 0.986842105263158,
+    "metrics/mAP50(B)": 0.9907,
+    "metrics/mAP50-95(B)": 0.6403265979651396,
+    "fitness": 0.6753639381686256
+  },
+  "processing_stats": {
+    "processed_images": 38,
+    "skipped_images": 0,
+    "skipped_no_labels": 0,
+    "skipped_no_target_class": 0
+  }
+}

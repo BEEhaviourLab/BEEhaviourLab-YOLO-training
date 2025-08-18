@@ -31,25 +31,25 @@
 
 import os
 import argparse
-import wandb
 import logging
-from ultralytics import YOLO
 from dotenv import load_dotenv
 
-class YOLOTrainer:
-    def __init__(self, project_name, run_name, data_yaml_path, train_path, val_path, model_size='n', 
-                 epochs=100, batch_size=16, image_size=640):
-        """Add dependency checks at initialization"""
-        # Add logger
-        self.logger = logging.getLogger(__name__)
-        logging.basicConfig(level=logging.INFO)
+# Add logger
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-        try:
-            import wandb
-            from ultralytics import YOLO
-        except ImportError:
-            raise ImportError("Required packages not installed. Please run:\npip install wandb ultralytics")
-        
+try:
+    import wandb
+    from ultralytics import YOLO
+except ImportError:
+    print("Required packages not installed. Please run:")
+    print("pip install wandb ultralytics")
+    exit(1)
+
+class YOLOTrainer:
+    def __init__(self, project_name, run_name, data_yaml_path, train_path, val_path, 
+                 model_size='n', epochs=100, batch_size=16, image_size=640, disable_wandb=False):
+        """Initialize the YOLO trainer"""
         self.project_name = project_name
         self.run_name = run_name
         self.data_yaml_path = data_yaml_path
@@ -60,14 +60,21 @@ class YOLOTrainer:
         self.batch_size = batch_size
         self.image_size = image_size
         self.model = None
+        self.wandb_enabled = False  # Track whether wandb is available
+        self.disable_wandb = disable_wandb  # Flag to disable wandb
         
     def init_wandb(self):
         """Initialize Weights & Biases tracking"""
+        if self.disable_wandb:
+            print("Wandb tracking disabled by user.")
+            return False
+            
         try:
             load_dotenv()  # Load environment variables from .env file
             api_key = os.getenv('WANDB_API_KEY')
             if not api_key:
-                raise ValueError("WANDB_API_KEY not found in environment variables")
+                print("WARNING: WANDB_API_KEY not found. Continuing without wandb tracking.")
+                return False
             
             wandb.login(key=api_key)
             wandb.init(
@@ -82,9 +89,10 @@ class YOLOTrainer:
                     "learning_rate": 0.01
                 }
             )
+            return True
         except Exception as e:
-            self.logger.error(f"Failed to initialize wandb: {str(e)}")
-            raise
+            print(f"WARNING: Failed to initialize wandb: {str(e)}. Continuing without wandb tracking.")
+            return False
 
     def validate_paths(self):
         """Validate all necessary paths"""
@@ -191,7 +199,17 @@ class YOLOTrainer:
                 seed=42,
                 resume=False,
                 project='runs/detect',  # Set explicit output directory
-                name='train'  # This will auto-increment (train, train2, etc.)
+                name='train',  # This will auto-increment (train, train2, etc.)
+                # Add NMS timeout and optimization parameters
+                nms_timeout=1.0,  # Limit NMS processing time
+                max_det=100,      # Reduce max detections per image
+                conf=0.25,        # Confidence threshold
+                iou=0.45,         # NMS IoU threshold
+                agnostic_nms=True, # Use agnostic NMS
+                # Memory optimization
+                cache=False,       # Disable caching to save memory
+                amp=True,          # Use mixed precision
+                half=False        # Don't use half precision on MPS
             )
             
             # Clean up temporary file
@@ -205,15 +223,16 @@ class YOLOTrainer:
     def run_training(self):
         """Execute the full training pipeline"""
         try:
-            self.init_wandb()
+            self.wandb_enabled = self.init_wandb()
             self.validate_paths()
             results = self.train()
             return results
         except Exception as e:
-            self.logger.error(f"Training failed: {str(e)}")
+            print(f"Training failed: {str(e)}")
             raise
         finally:
-            wandb.finish()
+            if self.wandb_enabled:
+                wandb.finish()
 
 def main():
     parser = argparse.ArgumentParser(description='Train YOLO model for bee detection')
@@ -227,6 +246,7 @@ def main():
     parser.add_argument('--epochs', type=int, default=100, help='Number of training epochs')
     parser.add_argument('--batch_size', type=int, default=16, help='Training batch size')
     parser.add_argument('--image_size', type=int, default=640, help='Input image size')
+    parser.add_argument('--disable_wandb', action='store_true', help='Disable wandb tracking')
     
     args = parser.parse_args()
     
@@ -239,7 +259,8 @@ def main():
         model_size=args.model_size,
         epochs=args.epochs,
         batch_size=args.batch_size,
-        image_size=args.image_size
+        image_size=args.image_size,
+        disable_wandb=args.disable_wandb
     )
     
     trainer.run_training()

@@ -16,7 +16,7 @@ beeYOLO/
 │ ├── load_run_metrics.py # Model evaluation tools
 │ └── video_inference.py # Video processing utilities
 ├── notebooks/ # Jupyter notebooks for training and analysis
-├── dataset/ # Training and validation data
+├── datasets/ # Training and validation data
 │ ├── train/
 │ └── val/
 ├── runs/ # Model checkpoints and training logs
@@ -59,7 +59,63 @@ Install the package in development mode
 pip install -e .
 ```
 
+## Weights & Biases (wandb) Setup
 
+This project uses Weights & Biases (wandb) for experiment tracking and model monitoring. While wandb is optional, it provides valuable insights into training progress and model performance.
+
+### 1. Create a wandb Account
+
+1. Visit [https://wandb.ai/site](https://wandb.ai/site) to create a free account
+2. Sign up with your email address
+3. Verify your email and complete the setup process
+
+### 2. Get Your API Key
+
+1. Log in to your wandb account
+2. Go to your profile settings (click your profile picture → Settings)
+3. Navigate to the "API Keys" section
+4. Copy your API key (it will look like: `abc123def456ghi789...`)
+
+### 3. Configure Environment Variables
+
+Create a `.env` file in the root directory of this project:
+
+```bash
+# Create .env file in the project root
+echo "WANDB_API_KEY=your_api_key_here" > .env
+```
+
+**Important**: Replace `your_api_key_here` with your actual wandb API key.
+
+**Note**: The `.env` file should be in the same directory as this README.md file.
+
+### 4. Alternative: Set Environment Variable Directly
+
+If you prefer not to use a `.env` file, you can set the environment variable directly in your terminal:
+
+**On Mac/Linux:**
+```bash
+export WANDB_API_KEY="your_api_key_here"
+```
+
+**On Windows:**
+```bash
+set WANDB_API_KEY=your_api_key_here
+```
+
+### 5. Disable wandb (Optional)
+
+If you don't want to use wandb for tracking, you can disable it by adding the `--disable_wandb` flag when running the training script:
+
+```bash
+python beeyolo/YOLO_model_training.py \
+--project_name "insect-detection" \
+--run_name "yolov8n-full-training" \
+--data_yaml "../datasets/insect-data/data.yaml" \
+--train_path "../datasets/insect-data/train/images" \
+--val_path "../datasets/insect-data/val/images" \
+--disable_wandb
+```
 
 ## Usage
 
@@ -87,6 +143,7 @@ Use `beeyolo.video_inference` to:
 - matplotlib
 - seaborn
 - opencv-python
+- wandb (optional, for experiment tracking)
 
 ## Contributing
 Feel free to open issues or submit pull requests for improvements.

@@ -1,0 +1,8 @@
+names:
+- bee
+- feeder
+nc: 2
+path: /Users/user/Documents/BEEhaviourLab/BEEhaviourLab-YOLO-training/datasets/insect-data
+task: detect
+train: /Users/user/Documents/BEEhaviourLab/BEEhaviourLab-YOLO-training/datasets/insect-data/train/images
+val: /Users/user/Documents/BEEhaviourLab/BEEhaviourLab-YOLO-training/datasets/insect-data/val/images

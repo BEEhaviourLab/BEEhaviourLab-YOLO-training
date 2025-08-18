@@ -1,0 +1,29 @@
+{
+  "model_path": "../models/beeYOLO.pt",
+  "dataset_name": "bumblebee-data",
+  "mode": "val",
+  "total_images": 50,
+  "total_ground_truth": 200,
+  "total_detections": 0,
+  "total_correct": 0,
+  "overall_precision": 0.9797959183673469,
+  "overall_recall": 0.97,
+  "overall_f1_score": 0.9796982928693582,
+  "overall_map50": 0.9796982928693582,
+  "overall_map50_95": 0.7687158649910112,
+  "conf_threshold": 0.5,
+  "iou_threshold": 0.5,
+  "ultralytics_metrics": {
+    "metrics/precision(B)": 0.9797959183673469,
+    "metrics/recall(B)": 0.97,
+    "metrics/mAP50(B)": 0.9796982928693582,
+    "metrics/mAP50-95(B)": 0.7687158649910112,
+    "fitness": 0.7898141077788459
+  },
+  "processing_stats": {
+    "processed_images": 50,
+    "skipped_images": 0,
+    "skipped_no_labels": 0,
+    "skipped_no_target_class": 0
+  }
+}

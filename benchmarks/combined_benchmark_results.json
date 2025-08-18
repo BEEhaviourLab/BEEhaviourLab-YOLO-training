@@ -1,0 +1,250 @@
+[
+  {
+    "model_path": "../models/beeYOLO.pt",
+    "dataset_name": "bumblebee-data",
+    "mode": "val",
+    "total_images": 50,
+    "total_ground_truth": 200,
+    "total_detections": 0,
+    "total_correct": 0,
+    "overall_precision": 0.9797959183673469,
+    "overall_recall": 0.97,
+    "overall_f1_score": 0.9796982928693582,
+    "overall_map50": 0.9796982928693582,
+    "overall_map50_95": 0.7687158649910112,
+    "conf_threshold": 0.5,
+    "iou_threshold": 0.5,
+    "ultralytics_metrics": {
+      "metrics/precision(B)": 0.9797959183673469,
+      "metrics/recall(B)": 0.97,
+      "metrics/mAP50(B)": 0.9796982928693582,
+      "metrics/mAP50-95(B)": 0.7687158649910112,
+      "fitness": 0.7898141077788459
+    },
+    "processing_stats": {
+      "processed_images": 50,
+      "skipped_images": 0,
+      "skipped_no_labels": 0,
+      "skipped_no_target_class": 0
+    },
+    "filename": "benchmark_results_bumblebee-data_20250818_165705.json",
+    "file_timestamp": "165705"
+  },
+  {
+    "model_path": "../models/insectYOLO.pt",
+    "dataset_name": "honeybee-data",
+    "mode": "val",
+    "total_images": 40,
+    "total_ground_truth": 80,
+    "total_detections": 0,
+    "total_correct": 0,
+    "overall_precision": 1.0,
+    "overall_recall": 1.0,
+    "overall_f1_score": 0.995,
+    "overall_map50": 0.995,
+    "overall_map50_95": 0.8416463194380779,
+    "conf_threshold": 0.5,
+    "iou_threshold": 0.5,
+    "ultralytics_metrics": {
+      "metrics/precision(B)": 1.0,
+      "metrics/recall(B)": 1.0,
+      "metrics/mAP50(B)": 0.995,
+      "metrics/mAP50-95(B)": 0.8416463194380779,
+      "fitness": 0.8569816874942702
+    },
+    "processing_stats": {
+      "processed_images": 40,
+      "skipped_images": 0,
+      "skipped_no_labels": 0,
+      "skipped_no_target_class": 0
+    },
+    "filename": "benchmark_results_honeybee-data_20250818_165627.json",
+    "file_timestamp": "165627"
+  },
+  {
+    "model_path": "../models/beeYOLO.pt",
+    "dataset_name": "ivybee-data",
+    "mode": "val",
+    "total_images": 38,
+    "total_ground_truth": 76,
+    "total_detections": 0,
+    "total_correct": 0,
+    "overall_precision": 0.5,
+    "overall_recall": 0.4473684210526316,
+    "overall_f1_score": 0.4736250000000001,
+    "overall_map50": 0.4736250000000001,
+    "overall_map50_95": 0.3677767737104554,
+    "conf_threshold": 0.5,
+    "iou_threshold": 0.5,
+    "ultralytics_metrics": {
+      "metrics/precision(B)": 0.5,
+      "metrics/recall(B)": 0.4473684210526316,
+      "metrics/mAP50(B)": 0.4736250000000001,
+      "metrics/mAP50-95(B)": 0.3677767737104554,
+      "fitness": 0.3783615963394099
+    },
+    "processing_stats": {
+      "processed_images": 38,
+      "skipped_images": 0,
+      "skipped_no_labels": 0,
+      "skipped_no_target_class": 0
+    },
+    "filename": "benchmark_results_ivybee-data_20250818_165729.json",
+    "file_timestamp": "165729"
+  },
+  {
+    "model_path": "../models/insectYOLO.pt",
+    "dataset_name": "hoverfly-data",
+    "mode": "val",
+    "total_images": 38,
+    "total_ground_truth": 76,
+    "total_detections": 0,
+    "total_correct": 0,
+    "overall_precision": 1.0,
+    "overall_recall": 0.986842105263158,
+    "overall_f1_score": 0.9907,
+    "overall_map50": 0.9907,
+    "overall_map50_95": 0.6403265979651396,
+    "conf_threshold": 0.5,
+    "iou_threshold": 0.5,
+    "ultralytics_metrics": {
+      "metrics/precision(B)": 1.0,
+      "metrics/recall(B)": 0.986842105263158,
+      "metrics/mAP50(B)": 0.9907,
+      "metrics/mAP50-95(B)": 0.6403265979651396,
+      "fitness": 0.6753639381686256
+    },
+    "processing_stats": {
+      "processed_images": 38,
+      "skipped_images": 0,
+      "skipped_no_labels": 0,
+      "skipped_no_target_class": 0
+    },
+    "filename": "benchmark_results_hoverfly-data_20250818_165651.json",
+    "file_timestamp": "165651"
+  },
+  {
+    "model_path": "../models/beeYOLO.pt",
+    "dataset_name": "hoverfly-data",
+    "mode": "val",
+    "total_images": 38,
+    "total_ground_truth": 76,
+    "total_detections": 0,
+    "total_correct": 0,
+    "overall_precision": 0.8333333333333333,
+    "overall_recall": 0.6710526315789473,
+    "overall_f1_score": 0.7466833333333334,
+    "overall_map50": 0.7466833333333334,
+    "overall_map50_95": 0.35745484648918474,
+    "conf_threshold": 0.5,
+    "iou_threshold": 0.5,
+    "ultralytics_metrics": {
+      "metrics/precision(B)": 0.8333333333333333,
+      "metrics/recall(B)": 0.6710526315789473,
+      "metrics/mAP50(B)": 0.7466833333333334,
+      "metrics/mAP50-95(B)": 0.35745484648918474,
+      "fitness": 0.3963776951735996
+    },
+    "processing_stats": {
+      "processed_images": 38,
+      "skipped_images": 0,
+      "skipped_no_labels": 0,
+      "skipped_no_target_class": 0
+    },
+    "filename": "benchmark_results_hoverfly-data_20250818_165740.json",
+    "file_timestamp": "165740"
+  },
+  {
+    "model_path": "../models/insectYOLO.pt",
+    "dataset_name": "bumblebee-data",
+    "mode": "val",
+    "total_images": 50,
+    "total_ground_truth": 200,
+    "total_detections": 0,
+    "total_correct": 0,
+    "overall_precision": 0.9795827688085168,
+    "overall_recall": 0.98,
+    "overall_f1_score": 0.9817751340271206,
+    "overall_map50": 0.9817751340271206,
+    "overall_map50_95": 0.8475792438635674,
+    "conf_threshold": 0.5,
+    "iou_threshold": 0.5,
+    "ultralytics_metrics": {
+      "metrics/precision(B)": 0.9795827688085168,
+      "metrics/recall(B)": 0.98,
+      "metrics/mAP50(B)": 0.9817751340271206,
+      "metrics/mAP50-95(B)": 0.8475792438635674,
+      "fitness": 0.8609988328799227
+    },
+    "processing_stats": {
+      "processed_images": 50,
+      "skipped_images": 0,
+      "skipped_no_labels": 0,
+      "skipped_no_target_class": 0
+    },
+    "filename": "benchmark_results_bumblebee-data_20250818_165614.json",
+    "file_timestamp": "165614"
+  },
+  {
+    "model_path": "../models/insectYOLO.pt",
+    "dataset_name": "ivybee-data",
+    "mode": "val",
+    "total_images": 38,
+    "total_ground_truth": 76,
+    "total_detections": 0,
+    "total_correct": 0,
+    "overall_precision": 0.986842105263158,
+    "overall_recall": 0.986842105263158,
+    "overall_f1_score": 0.9894973684210526,
+    "overall_map50": 0.9894973684210526,
+    "overall_map50_95": 0.8452112381591702,
+    "conf_threshold": 0.5,
+    "iou_threshold": 0.5,
+    "ultralytics_metrics": {
+      "metrics/precision(B)": 0.986842105263158,
+      "metrics/recall(B)": 0.986842105263158,
+      "metrics/mAP50(B)": 0.9894973684210526,
+      "metrics/mAP50-95(B)": 0.8452112381591702,
+      "fitness": 0.8596398511853585
+    },
+    "processing_stats": {
+      "processed_images": 38,
+      "skipped_images": 0,
+      "skipped_no_labels": 0,
+      "skipped_no_target_class": 0
+    },
+    "filename": "benchmark_results_ivybee-data_20250818_165639.json",
+    "file_timestamp": "165639"
+  },
+  {
+    "model_path": "../models/beeYOLO.pt",
+    "dataset_name": "honeybee-data",
+    "mode": "val",
+    "total_images": 40,
+    "total_ground_truth": 80,
+    "total_detections": 0,
+    "total_correct": 0,
+    "overall_precision": 0.7616612114796347,
+    "overall_recall": 0.6662291748766561,
+    "overall_f1_score": 0.7407731232844016,
+    "overall_map50": 0.7407731232844016,
+    "overall_map50_95": 0.38974540092158444,
+    "conf_threshold": 0.5,
+    "iou_threshold": 0.5,
+    "ultralytics_metrics": {
+      "metrics/precision(B)": 0.7616612114796347,
+      "metrics/recall(B)": 0.6662291748766561,
+      "metrics/mAP50(B)": 0.7407731232844016,
+      "metrics/mAP50-95(B)": 0.38974540092158444,
+      "fitness": 0.42484817315786616
+    },
+    "processing_stats": {
+      "processed_images": 40,
+      "skipped_images": 0,
+      "skipped_no_labels": 0,
+      "skipped_no_target_class": 0
+    },
+    "filename": "benchmark_results_honeybee-data_20250818_165717.json",
+    "file_timestamp": "165717"
+  }
+]

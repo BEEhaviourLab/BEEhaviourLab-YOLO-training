@@ -1,0 +1,29 @@
+{
+  "model_path": "../models/insectYOLO.pt",
+  "dataset_name": "bumblebee-data",
+  "mode": "val",
+  "total_images": 50,
+  "total_ground_truth": 200,
+  "total_detections": 0,
+  "total_correct": 0,
+  "overall_precision": 0.9795827688085168,
+  "overall_recall": 0.98,
+  "overall_f1_score": 0.9817751340271206,
+  "overall_map50": 0.9817751340271206,
+  "overall_map50_95": 0.8475792438635674,
+  "conf_threshold": 0.5,
+  "iou_threshold": 0.5,
+  "ultralytics_metrics": {
+    "metrics/precision(B)": 0.9795827688085168,
+    "metrics/recall(B)": 0.98,
+    "metrics/mAP50(B)": 0.9817751340271206,
+    "metrics/mAP50-95(B)": 0.8475792438635674,
+    "fitness": 0.8609988328799227
+  },
+  "processing_stats": {
+    "processed_images": 50,
+    "skipped_images": 0,
+    "skipped_no_labels": 0,
+    "skipped_no_target_class": 0
+  }
+}
